@@ -63,7 +63,7 @@ def build_index() -> tuple[str, str]:
     labels = [intent_names[i] for i in intents]
 
     logger.info("Gerando embeddings com o modelo '%s'...", MODEL_NAME)
-    model = SentenceTransformer("./models/all-MiniLM-L6-v2")
+    model = SentenceTransformer("./models/all-MiniLM-L6-v2", trust_remote_code=True)
 
     embeddings = model.encode(
         texts,

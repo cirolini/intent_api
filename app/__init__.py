@@ -6,6 +6,7 @@ import os
 import logging
 import click
 from flask import Flask
+from flask_cors import CORS
 
 # Importa blueprint de rotas e registra endpoints no app
 from .api import bp as api_bp
@@ -14,9 +15,12 @@ from .model import MODEL_NAME, DATA_DIR
 
 # Cria a instância da aplicação Flask
 app = Flask(__name__)
+CORS(app)
+
 app.register_blueprint(api_bp)
 
-# Configura logging para saída em console
+# Remove handlers herdados do Flask para evitar logs duplicados, em seguida configura nosso handler de console
+app.logger.handlers.clear()
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 handler = logging.StreamHandler()
 handler.setLevel(LOG_LEVEL)
@@ -24,6 +28,7 @@ LOG_FORMAT = "%(asctime)s %(levelname)s %(name)s: %(message)s"
 handler.setFormatter(logging.Formatter(LOG_FORMAT))
 app.logger.setLevel(LOG_LEVEL)
 app.logger.addHandler(handler)
+app.logger.propagate = False
 
 
 @app.cli.command("build-index")

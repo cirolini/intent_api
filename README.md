@@ -88,6 +88,43 @@ curl -X POST http://localhost:5000/predict \
 }
 ```
 
+## Testes Unitários
+
+Este projeto inclui testes unitários usando `unittest`. Para executar os testes e gerar relatórios, instale as dependências de desenvolvimento:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+Em seguida, você pode executar:
+
+- Para rodar todos os testes e obter um resumo dos resultados:
+
+```bash
+pytest
+```
+
+- Para gerar um relatório de cobertura no terminal:
+
+```bash
+pytest --cov=app
+```
+
+- Para gerar um relatório de cobertura detalhado no terminal e um relatório HTML:
+
+```bash
+pytest --cov=app --cov-report=term-missing --cov-report=html
+```
+
+O relatório HTML será salvo em `htmlcov/index.html`.
+
+Você também pode executar os testes e gerar um relatório de cobertura dentro de um container Docker usando o Dockerfile.dev:
+
+```bash
+docker build -f Dockerfile.dev -t intent-api-dev .
+docker run --rm -v "$(pwd)/htmlcov:/app/htmlcov" intent-api-dev
+```
+
 ## Contribuições
 
 Pull requests são bem-vindos! Para mudanças maiores, por favor abra uma issue para discutirmos primeiro.

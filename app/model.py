@@ -47,7 +47,7 @@ def load_model():
         _state["labels"] = json.load(f)
 
     logger.info("Carregando modelo de embeddings '%s'...", MODEL_NAME)
-    _state["model"] = SentenceTransformer("./models/all-MiniLM-L6-v2")
+    _state["model"] = SentenceTransformer("./models/all-MiniLM-L6-v2", trust_remote_code=True)
 
     logger.info(
         "Recursos carregados com sucesso: %d labels, índice FAISS e modelo prontos.",

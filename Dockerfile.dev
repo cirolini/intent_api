@@ -1,0 +1,17 @@
+# Dockerfile.dev: ambiente de desenvolvimento e testes (pytest + coverage)
+FROM python:3.10-slim
+WORKDIR /app
+COPY . /app
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential git && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    pip install -r requirements-dev.txt
+
+ENV FLASK_APP=app \
+    PYTHONUNBUFFERED=1
+
+CMD ["python", "-m", "pytest", "--cov=app", "--cov-report=term-missing", "--cov-report=html"]

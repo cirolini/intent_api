@@ -7,6 +7,7 @@ import traceback
 from flask import Blueprint, current_app, request, jsonify
 
 from .model import predict
+from .config import DEFAULT_THRESHOLD
 from .utils import preprocess
 from .builder import build_index
 
@@ -37,7 +38,7 @@ def predict_route():
 
         text = preprocess(text)
         top_k = int(payload.get("top_k", 5))
-        threshold = float(payload.get("threshold", 0.7))
+        threshold = float(payload.get("threshold", DEFAULT_THRESHOLD))
 
         current_app.logger.info(
             'Predicting intent for text="%s", top_k=%d, threshold=%s',
